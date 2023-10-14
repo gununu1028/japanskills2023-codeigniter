@@ -3,6 +3,7 @@ version: '3'
 services:
   # MySQL
   db:
+    platform: 'linux/amd64'
     image: mysql:5.7
     container_name: mysql_host
     environment:
@@ -16,10 +17,11 @@ services:
     - ./docker/db/data:/var/lib/mysql
     - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
-    - 3306:3306
+    - 127.0.0.1:3306:3306
 
   # phpMyAdmin
   phpmyadmin:
+    platform: 'linux/amd64'
     container_name: phpmyadmin_host
     image: phpmyadmin/phpmyadmin
     environment:
@@ -28,5 +30,5 @@ services:
     - PMA_USER=root
     - PMA_PASSWORD=root
     ports:
-    - 8080:80
+    - 8088:80
     
