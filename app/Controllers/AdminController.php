@@ -29,12 +29,10 @@ class AdminController extends BaseController
 
         $admin = $this->administratorModel->verifyPassword($name, $password);
         if ($admin) {
-            // セッションに管理者情報をセット
             session()->set('admin', $admin);
             session()->setFlashdata('success', 'ログインしました。');
             return redirect()->to('/admin/dashboard');
         } else {
-            // エラーメッセージを表示
             session()->setFlashdata('error', 'ユーザー名またはパスワードが正しくありません。');
         }
         return view('admin/login');
@@ -77,34 +75,14 @@ class AdminController extends BaseController
             return redirect()->to('/admin/login');
         }
 
-        // 1. バリデーション
-        $rules = [
-            'name' => [
-                'rules'  => 'required|is_unique[users.name]',
-                'errors' => [
-                    'required' => 'ユーザー名は必須です。',
-                    'is_unique' => 'このユーザー名は既に使用されています。'
-                ],
-            ],
-            'password' => [
-                'rules'  => 'required|min_length[8]',
-                'errors' => [
-                    'required' => 'パスワードは必須です。',
-                    'min_length' => 'パスワードは8文字以上にしてください。'
-                ],
-            ],
-        ];
-
-        if (!$this->validate($rules)) {
-            // エラー情報をフラッシュデータとしてセット
+        // バリデーションチェック
+        if (!$this->validate($this->userModel->getRules())) {
             session()->setFlashdata('errors', $this->validator->getErrors());
             return redirect()->back()->withInput();
         }
 
-        // 2. パスワードのハッシュ化
-        $hashedPassword = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
-
-        // 3. ユーザーの保存
+        $password = $this->request->getPost('password');
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $data = [
             'name' => $this->request->getPost('name'),
             'password' => $hashedPassword,
@@ -112,7 +90,6 @@ class AdminController extends BaseController
         ];
 
         if ($this->userModel->save($data)) {
-            // 成功した場合のリダイレクトやメッセージ表示
             session()->setFlashdata('success', 'ユーザーが正常に作成されました。');
             return redirect()->to('/admin/user');
         }
@@ -147,11 +124,23 @@ class AdminController extends BaseController
             return redirect()->to('/admin/login');
         }
 
-        $name = $this->request->getPost('name');
-        $password = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
-        $this->userModel->update($id, ['name' => $name, 'password' => $password]);
-        session()->setFlashdata('success', 'ユーザー情報を更新しました。');
-        return redirect()->to('/admin/user/' . $id);
+        // バリデーションチェック
+        if (!$this->validate($this->userModel->getRules($id))) {
+            session()->setFlashdata('errors', $this->validator->getErrors());
+            return redirect()->back()->withInput();
+        }
+
+        $password = $this->request->getPost('password');
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'password' => $hashedPassword,
+        ];
+
+        if ($this->userModel->update($id, $data)) {
+            session()->setFlashdata('success', 'ユーザー情報を更新しました。');
+            return redirect()->to('/admin/user/' . $id);
+        }
     }
 
     public function deleteUser($id)

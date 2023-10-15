@@ -14,4 +14,26 @@ class UserModel extends Model
     protected $allowedFields = ['name', 'password', 'active_status'];
     // 作成日時、更新日時を指定
     protected $useTimestamps = true;
+
+    // バリデーションルール
+    public function getRules($id = null)
+    {
+        $rules = [
+            'name' => [
+                'rules'  => "required|is_unique[users.name,id,{$id}]",
+                'errors' => [
+                    'required' => 'ユーザー名は必須です。',
+                    'is_unique' => 'このユーザー名は既に使用されています。'
+                ],
+            ],
+            'password' => [
+                'rules'  => 'required|min_length[8]',
+                'errors' => [
+                    'required' => 'パスワードは必須です。',
+                    'min_length' => 'パスワードは8文字以上にしてください。'
+                ],
+            ],
+        ];
+        return $rules;
+    }
 }
