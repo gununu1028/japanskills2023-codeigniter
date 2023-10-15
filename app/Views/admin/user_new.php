@@ -16,7 +16,6 @@
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-
     <form action="/admin/user/create" method="post">
         <div>
             <label for="name">ユーザー名:</label>
@@ -30,7 +29,6 @@
             <input type="submit" value="作成">
         </div>
     </form>
-
 </body>
 
 </html>

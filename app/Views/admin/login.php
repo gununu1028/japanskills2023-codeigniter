@@ -9,13 +9,11 @@
 
 <body>
     <h1>管理画面 ログイン</h1>
-
     <?php if (session()->getFlashdata('error')) : ?>
         <div style="color: red;">
             <?= session()->getFlashdata('error') ?>
         </div>
     <?php endif; ?>
-
     <form action="/admin/login" method="post">
         <div>
             <label for="name">ユーザー名:</label>

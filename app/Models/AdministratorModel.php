@@ -5,10 +5,8 @@ use CodeIgniter\Model;
 
 class AdministratorModel extends Model
 {
+    // テーブルを指定
     protected $table = 'administrators';
-    protected $primaryKey = 'id';
-    protected $allowedFields = ['name', 'password'];
-    protected $returnType = 'array';
 
     // パスワードの確認
     public function verifyPassword($name, $password) {

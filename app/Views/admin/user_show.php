@@ -40,12 +40,12 @@
             </li>
             <li>
                 <?php
-                if ($user['active_status'] == 0) :
-                    echo '利用不可';
-                    $valueText = '利用可能にする';
-                else :
+                if ($user['active_status']) :
                     echo '利用可能';
                     $valueText = '利用不可にする';
+                else :
+                    echo '利用不可';
+                    $valueText = '利用可能にする';
                 endif;
                 ?>
                 <form action="/admin/user/<?php echo $user['id']; ?>/active_status" method="post">

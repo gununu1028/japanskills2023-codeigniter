@@ -16,7 +16,6 @@
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-
     <form action="/admin/user/<?php echo $user['id']; ?>" method="post">
         <input type="hidden" name="_method" value="put">
 
