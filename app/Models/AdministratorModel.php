@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 class AdministratorModel extends Model
 {
     // テーブルを指定
-    protected $table = 'administrators';
+    protected $table = 'administrator';
 
     // パスワードの確認
     public function verifyPassword($name, $password) {

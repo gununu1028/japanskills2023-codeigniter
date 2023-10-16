@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class UserModel extends Model
 {
     // テーブルを指定
-    protected $table = 'users';
+    protected $table = 'user';
     // 主キーを指定
     protected $primaryKey = 'id';
     // 変更を許可するカラムを指定
@@ -20,7 +20,7 @@ class UserModel extends Model
     {
         $rules = [
             'name' => [
-                'rules'  => "required|is_unique[users.name,id,{$id}]",
+                'rules'  => "required|is_unique[user.name,id,{$id}]",
                 'errors' => [
                     'required' => 'ユーザー名は必須です。',
                     'is_unique' => 'このユーザー名は既に使用されています。'
