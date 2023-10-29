@@ -47,6 +47,7 @@ class AdminController extends BaseController
         return view('admin/dashboard');
     }
 
+    // ここから追記
     public function getUserList()
     {
         // 認証チェック
@@ -105,67 +106,6 @@ class AdminController extends BaseController
         $data['user'] = $this->userModel->find($id);
         return view('admin/user_show', $data);
     }
+    // ここまで追記
 
-    public function getUserEdit($id)
-    {
-        // 認証チェック
-        if (!session()->has('admin')) {
-            return redirect()->to('/admin/login');
-        }
-
-        $data['user'] = $this->userModel->find($id);
-        return view('admin/user_edit', $data);
-    }
-
-    public function putUserUpdate($id)
-    {
-        // 認証チェック
-        if (!session()->has('admin')) {
-            return redirect()->to('/admin/login');
-        }
-
-        // バリデーションチェック
-        if (!$this->validate($this->userModel->getRules($id))) {
-            session()->setFlashdata('errors', $this->validator->getErrors());
-            return redirect()->back()->withInput();
-        }
-
-        $password = $this->request->getPost('password');
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $data = [
-            'name' => $this->request->getPost('name'),
-            'password' => $hashedPassword,
-        ];
-
-        if ($this->userModel->update($id, $data)) {
-            session()->setFlashdata('success', 'ユーザー情報を更新しました。');
-            return redirect()->to('/admin/user/' . $id);
-        }
-    }
-
-    public function deleteUser($id)
-    {
-        // 認証チェック
-        if (!session()->has('admin')) {
-            return redirect()->to('/admin/login');
-        }
-
-        $this->userModel->delete($id);
-        session()->setFlashdata('success', 'ユーザーを削除しました。');
-        return redirect()->to('/admin/user');
-    }
-
-    public function patchUserActiveStatus($id)
-    {
-        // 認証チェック
-        if (!session()->has('admin')) {
-            return redirect()->to('/admin/login');
-        }
-
-        $user = $this->userModel->find($id);
-        $this->userModel->update($id, ['active_status' => !$user['active_status']]);
-
-        session()->setFlashdata('success', 'ユーザーを更新しました。');
-        return redirect()->to('/admin/user/' . $id);
-    }
 }
