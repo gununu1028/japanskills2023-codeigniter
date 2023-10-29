@@ -106,6 +106,7 @@ class AdminController extends BaseController
         return view('admin/user_show', $data);
     }
 
+    // ここから追記
     public function getUserEdit($id)
     {
         // 認証チェック
@@ -168,4 +169,5 @@ class AdminController extends BaseController
         session()->setFlashdata('success', 'ユーザーを更新しました。');
         return redirect()->to('/admin/user/' . $id);
     }
+    // ここまで追記
 }
