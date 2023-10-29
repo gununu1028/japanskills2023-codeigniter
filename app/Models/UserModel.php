@@ -11,7 +11,7 @@ class UserModel extends Model
     // 主キーを指定
     protected $primaryKey = 'id';
     // 変更を許可するカラムを指定
-    protected $allowedFields = ['name', 'password', 'active_status'];
+    protected $allowedFields = ['name', 'password', 'active_status', 'memo'];
     // 作成日時、更新日時を指定
     protected $useTimestamps = true;
 
@@ -35,5 +35,15 @@ class UserModel extends Model
             ],
         ];
         return $rules;
+    }
+
+    // パスワードの確認
+    public function verifyPassword($name, $password)
+    {
+        $user = $this->where('name', $name)->first();
+        if ($user && password_verify($password, $user['password'])) {
+            return $user;
+        }
+        return null;
     }
 }
