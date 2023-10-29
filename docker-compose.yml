@@ -30,5 +30,5 @@ services:
     - PMA_USER=root
     - PMA_PASSWORD=root
     ports:
-    - 8088:80
+    - 8080:80
     
