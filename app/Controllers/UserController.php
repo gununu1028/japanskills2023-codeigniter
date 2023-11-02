@@ -24,9 +24,7 @@ class UserController extends BaseController
             $responseJson = [
                 'success' => false,
             ];
-            return $this->response
-                ->setStatusCode(400)
-                ->setJSON($responseJson);
+            return $this->response->setStatusCode(400)->setJSON($responseJson);
         }
 
         // ユーザー情報をJSONで返す
@@ -35,63 +33,6 @@ class UserController extends BaseController
             'name' => $user['name'],
             'memo' => $user['memo'],
             'created_at' => $user['created_at'],
-        ];
-        return $this->response->setStatusCode(200)->setJSON($responseJson);
-    }
-
-    public function putUserUpdate()
-    {
-        // 認証チェック
-        $user = $this->authenticatedUser();
-        if (!$user) {
-            $responseJson = [
-                'success' => false,
-            ];
-            return $this->response->setStatusCode(400)->setJSON($responseJson);
-        }
-
-        // リクエストされたJSONを受け取る
-        $jsonData = $this->request->getJSON();
-
-        $data = [];
-        if (isset($jsonData->name)) {
-            $data['name'] = $jsonData->name;
-        }
-        if (isset($jsonData->memo)) {
-            $data['memo'] = $jsonData->memo;
-        }
-
-        if (!empty($data)) {
-            $this->userModel->update($user['id'], $data);
-        }
-
-        $updatedUser = $this->userModel->where('id', $user['id'])->first();
-
-        // ユーザー情報をJSONで返す
-        $responseJson = [
-            'success' => true,
-            'name' => $updatedUser['name'],
-            'memo' => $updatedUser['memo'],
-            'created_at' => $updatedUser['created_at'],
-        ];
-        return $this->response->setStatusCode(200)->setJSON($responseJson);
-    }
-
-    public function deleteUser()
-    {
-        // 認証チェック
-        $user = $this->authenticatedUser();
-        if (!$user) {
-            $responseJson = [
-                'success' => false,
-            ];
-            return $this->response->setStatusCode(400)->setJSON($responseJson);
-        }
-
-        $this->userModel->delete($user['id']);
-
-        $responseJson = [
-            'success' => true,
         ];
         return $this->response->setStatusCode(200)->setJSON($responseJson);
     }

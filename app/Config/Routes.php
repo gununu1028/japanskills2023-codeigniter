@@ -29,12 +29,10 @@ $routes->group('admin', function ($routes) {
 $routes->group('api', function ($routes) {
     $routes->group('auth', function ($routes) {
         $routes->post('signup', 'AuthController::postSignup');
-        $routes->post('login', 'AuthController::postLogin');
-        $routes->post('logout', 'AuthController::postLogout');
     });
+    // ここから追記
     $routes->group('user', function ($routes) {
         $routes->get('/', 'UserController::getUserShow');
-        $routes->put('/', 'UserController::putUserUpdate');
-        $routes->delete('/', 'UserController::deleteUser');
     });
+    // ここまで追記
 });
