@@ -16,54 +16,17 @@ class AuthController extends BaseController
         $this->userTokenModel = new UserTokenModel();
     }
 
-    public function postSignup()
+    public function postLogin()
     {
         // リクエストされたJSONを受け取る
         $jsonData = $this->request->getJSON();
         $name = $jsonData->name;
         $password = $jsonData->password;
-        // パスワードを暗号化
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $data = [
-            'name' => $name,
-            'password' => $hashedPassword,
-            'active_status' => true
-        ];
-
-        // バリデーションチェック
-        if (!$this->validate($this->userModel->getRules())) {
-            $responseJson = [
-                'success' => false,
-            ];
-            return $this->response->setStatusCode(400)->setJSON($responseJson);
-        }
-
-        // userを作成
-        $this->userModel->save($data);
-
-        // 作成したuserを取得
-        $user = $this->userModel->where('name', $name)->first();
-
-        // userのトークンを発行
-        $token = $this->userTokenModel->issueToken($user['id']);
-
-        // ユーザー情報をJSONで返す
-        $responseJson = [
-            'success' => true,
-            'token' => $token,
-        ];
-        return $this->response->setStatusCode(200)->setJSON($responseJson);
-    }
-
-    public function postLogin()
-    {
-        $jsonData = $this->request->getJSON();
-        $name = $jsonData->name;
-        $password = $jsonData->password;
-
+        // パスワードチェック
         $user = $this->userModel->verifyPassword($name, $password);
 
+        // 該当するuserがなければ、認証失敗
         if (!$user) {
             $responseJson = [
                 'success' => false,
@@ -71,6 +34,7 @@ class AuthController extends BaseController
             return $this->response->setStatusCode(400)->setJSON($responseJson);
         }
 
+        // userが利用不可であれば、認証失敗
         if (!$user['active_status']) {
             $responseJson = [
                 'success' => false,
@@ -78,34 +42,13 @@ class AuthController extends BaseController
             return $this->response->setStatusCode(400)->setJSON($responseJson);
         }
 
+        // トークンを発行
         $token = $this->userTokenModel->issueToken($user['id']);
+
+        // JSONを返す
         $responseJson = [
             'success' => true,
             'token' => $token,
-        ];
-        return $this->response->setStatusCode(200)->setJSON($responseJson);
-    }
-
-    public function postLogout()
-    {
-        $authHeader = $this->request->getHeaderLine('Authorization');
-        $token = null;
-        if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
-            $token = $matches[1];
-        }
-
-        $userId = $this->userTokenModel->verifyToken($token);
-        if (!$userId) {
-            $responseJson = [
-                'success' => false,
-            ];
-            return $this->response->setStatusCode(400)->setJSON($responseJson);
-        }
-
-        $this->userTokenModel->deleteToken($userId);
-
-        $responseJson = [
-            'success' => true,
         ];
         return $this->response->setStatusCode(200)->setJSON($responseJson);
     }

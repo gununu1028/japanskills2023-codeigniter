@@ -21,26 +21,4 @@ class UserTokenModel extends Model
         $this->save($data);
         return $token;
     }
-
-    // トークンの確認
-    public function verifyToken($tokenText)
-    {
-        $now = date('Y-m-d H:i:s');
-        $whereArray = [
-            'token' => $tokenText,
-            'expires_at >' => $now
-        ];
-        $userToken = $this->where($whereArray)->first();
-        if ($userToken) {
-            return $userToken['user_id'];
-        } else {
-            return null;
-        }
-    }
-
-    // トークンの削除
-    public function deleteToken($userId)
-    {
-        $this->where('user_id', $userId)->delete();
-    }
 }
