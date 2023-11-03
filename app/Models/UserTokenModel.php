@@ -44,4 +44,5 @@ class UserTokenModel extends Model
     {
         $this->where('user_id', $userId)->delete();
     }
+    // ここまで追記
 }
