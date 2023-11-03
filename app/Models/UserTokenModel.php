@@ -22,6 +22,7 @@ class UserTokenModel extends Model
         return $token;
     }
 
+    // ここから追記
     // トークンの確認
     public function verifyToken($tokenText)
     {
