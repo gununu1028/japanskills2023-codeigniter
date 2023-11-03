@@ -103,6 +103,10 @@ class UserController extends BaseController
     {
         // Bearer認証
         $authHeader = $this->request->getHeaderLine('Authorization');
+
+        log_message('info', 'authenticatedUserを実行');
+        log_message('info', $authHeader);
+
         if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
             $token = $matches[1];
         } else {
