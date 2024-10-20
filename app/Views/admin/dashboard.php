@@ -15,7 +15,10 @@
     <?php endif; ?>
     <ul>
         <li>
-            <a href="/admin/user/">ユーザー管理</a>
+            <a href="/admin/event/">イベント管理</a>
+        </li>
+        <li>
+            <a href="/admin/logout">ログアウト</a>
         </li>
     </ul>
 </body>

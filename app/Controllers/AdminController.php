@@ -43,4 +43,9 @@ class AdminController extends BaseController
         }
         return view('admin/dashboard');
     }
+
+    public function getLogout(){
+        session()->remove('admin');
+        return redirect()->to('/admin/login');
+    }
 }
