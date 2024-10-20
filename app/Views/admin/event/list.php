@@ -42,7 +42,7 @@
                     <a href="/admin/event/<?php echo $event['id']; ?>/edit">編集</a>
                 </td>
                 <td>
-                    <a href="/admin/event/<?php echo $event['id']; ?>/delete">削除</a>
+                    <a href="/admin/event/<?php echo $event['id']; ?>/delete" onclick="return confirm('削除してよろしいですか？')">削除</a>
                 </td>
             </tr>
         <?php endforeach; ?>

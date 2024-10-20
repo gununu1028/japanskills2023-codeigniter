@@ -17,8 +17,6 @@
     <?php endif; ?>
 
     <form action="/admin/event/<?php echo $event['id']; ?>/update" method="post">
-        <input type="hidden" name="_method" value="put">
-
         <div>
             <label for="name">イベント名:</label>
             <input type="text" name="name" id="name" value="<?php echo $event['name']; ?>" required>
