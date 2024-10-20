@@ -16,8 +16,8 @@
     <?php endif; ?>
     <form action="/admin/login" method="post">
         <div>
-            <label for="name">ユーザー名:</label>
-            <input type="text" id="name" name="name" required>
+            <label for="email">ユーザー名:</label>
+            <input type="text" id="email" name="email" required>
         </div>
         <div>
             <label for="password">パスワード:</label>

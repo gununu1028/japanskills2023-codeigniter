@@ -2,18 +2,15 @@
 
 namespace App\Controllers;
 
-use App\Models\AdministratorModel;
 use App\Models\UserModel;
 
 class AdminController extends BaseController
 {
-    private $administratorModel;
     private $userModel;
 
     public function __construct()
     {
         helper('form');
-        $this->administratorModel = new AdministratorModel();
         $this->userModel = new UserModel();
     }
 
@@ -24,10 +21,10 @@ class AdminController extends BaseController
 
     public function postLogin()
     {
-        $name = $this->request->getPost('name');
+        $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
 
-        $admin = $this->administratorModel->verifyPassword($name, $password);
+        $admin = $this->userModel->verifyPassword($email, $password);
         if ($admin) {
             session()->set('admin', $admin);
             session()->setFlashdata('success', 'ログインしました。');
