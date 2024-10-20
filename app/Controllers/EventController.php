@@ -48,16 +48,4 @@ class EventController extends BaseController
         session()->setFlashdata('success', 'イベント情報が登録されました。');
         return redirect()->to(uri: '/admin/event/');
     }
-
-    public function getEventEdit($id)
-    {
-        // 認証チェック
-        if (!session()->has('admin')) {
-            return redirect()->to('/admin/login');
-        }
-        $event = $this->eventModel->find($id);
-        return view('admin/event/edit', ['event' => $event]);
-    }
-
-    public function postEventEdit($id) {}
 }
