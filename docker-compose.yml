@@ -1,7 +1,4 @@
-version: '3'
-
 services:
-  # MySQL
   db:
     platform: 'linux/amd64'
     image: mysql:5.7
@@ -19,7 +16,6 @@ services:
     ports:
     - 127.0.0.1:3306:3306
 
-  # phpMyAdmin
   phpmyadmin:
     platform: 'linux/amd64'
     container_name: phpmyadmin_host
@@ -31,4 +27,3 @@ services:
     - PMA_PASSWORD=root
     ports:
     - 8080:80
-    
