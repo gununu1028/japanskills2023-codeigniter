@@ -39,10 +39,10 @@
                     <?php echo $event['event_date']; ?>
                 </td>
                 <td>
-                    <a href="/admin/event/<?php echo $event['id']; ?>">編集</a>
+                    <a href="/admin/event/<?php echo $event['id']; ?>/edit">編集</a>
                 </td>
                 <td>
-                    <a href="/admin/event/<?php echo $event['id']; ?>">削除</a>
+                    <a href="/admin/event/<?php echo $event['id']; ?>/delete">削除</a>
                 </td>
             </tr>
         <?php endforeach; ?>

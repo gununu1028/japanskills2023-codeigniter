@@ -59,5 +59,30 @@ class EventController extends BaseController
         return view('admin/event/edit', ['event' => $event]);
     }
 
-    public function postEventEdit($id) {}
+    public function postEventUpdate($id)
+    {
+        // 認証チェック
+        if (!session()->has('admin')) {
+            return redirect()->to('/admin/login');
+        }
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'place' => $this->request->getPost('place'),
+            'event_date' => $this->request->getPost('event_date')
+        ];
+        $this->eventModel->update($id, $data);
+        session()->setFlashdata('success', 'イベント情報が更新されました。');
+        return redirect()->to(uri: '/admin/event/');
+    }
+
+    public function getEventDelete($id)
+    {
+        // 認証チェック
+        if (!session()->has('admin')) {
+            return redirect()->to('/admin/login');
+        }
+        $this->eventModel->delete(id: $id);
+        session()->setFlashdata('success', 'イベント情報が削除されました。');
+        return redirect()->to(uri: '/admin/event/');
+    }
 }
