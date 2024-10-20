@@ -14,6 +14,16 @@ $routes->group('admin', function ($routes) {
     $routes->post('login', 'AdminController::postLogin');
     $routes->get('logout', 'AdminController::getLogout');
     $routes->get('dashboard', 'AdminController::getDashboard');
+
+    // イベント管理
+    $routes->group('event', function ($routes) {
+        $routes->get('/', 'EventController::getEventList');
+        $routes->get('new', 'EventController::getEventNew');
+        $routes->post('create', 'EventController::postEventCreate');
+        $routes->get('edit/(:id)', 'EventController::getEventEdit/$1');
+        $routes->post('edit/(:id)', 'EventController::postEventEdit/$1');
+        $routes->get('delete/(:id)', 'EventController::getEventDelete/$1');
+    });
 });
 
 // REST API
