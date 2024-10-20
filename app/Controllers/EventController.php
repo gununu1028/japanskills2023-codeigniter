@@ -2,18 +2,15 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
 use App\Models\EventModel;
 
 class EventController extends BaseController
 {
-    private $userModel;
     private $eventModel;
 
     public function __construct()
     {
         helper('form');
-        $this->userModel = new UserModel();
         $this->eventModel = new EventModel();
     }
 
