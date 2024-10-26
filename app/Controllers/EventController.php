@@ -49,6 +49,8 @@ class EventController extends BaseController
         return redirect()->to(uri: '/admin/event/');
     }
 
+    // ここから追加
+
     public function getEventEdit($id)
     {
         // 認証チェック
@@ -85,4 +87,6 @@ class EventController extends BaseController
         session()->setFlashdata('success', 'イベント情報が削除されました。');
         return redirect()->to(uri: '/admin/event/');
     }
+
+    // ここまで追加
 }
